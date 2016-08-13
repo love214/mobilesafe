@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -17,17 +18,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.test.mobilesafe.R;
 import com.test.mobilesafe.utils.StreamUtil;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +52,7 @@ public class SplashActivity extends Activity {
     private int startTime;
     private int endTime;
     private Context mContext;
+    private SharedPreferences sp;
 
     private Handler handler=new Handler(){
         @Override
@@ -91,12 +90,27 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.splash_activity);
+        setContentView(R.layout.activity_splash);
         mContext=this;
         tv_splash_versionname = (TextView) findViewById(R.id.tv_splash_versionname);
         tv_splash_versionname.setText("版本号 "+getVersionName());
         tv_splash_plan = (TextView) findViewById(R.id.tv_splash_plan);
-        update();
+        sp=getSharedPreferences("config",MODE_PRIVATE);
+        if (sp.getBoolean("update",true)){
+            update();
+        }else {
+            new Thread(){
+                @Override
+                public void run() {
+                    super.run();
+                    SystemClock.sleep(2000);
+                    enterHome();
+                }
+            }.start();
+
+        }
+
+
     }
 
     //弹出对话框
@@ -263,6 +277,5 @@ public class SplashActivity extends Activity {
             e.printStackTrace();
         }
         return null;
-
     }
 }
