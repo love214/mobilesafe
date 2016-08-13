@@ -110,7 +110,6 @@ public class SplashActivity extends Activity {
 
         }
 
-
     }
 
     //弹出对话框

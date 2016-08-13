@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.test.mobilesafe.R;
 
 /**
@@ -17,15 +16,34 @@ public class SettingView extends RelativeLayout {
     private TextView tv_setting_title;
     private TextView tv_setting_des;
     private CheckBox cb_setting_update;
+    private String des_on;
+    private String des_off;
 
     public SettingView(Context context) {
         super(context);
         init();
     }
 
+    //attrs保存有控件的所有属性
     public SettingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
+//        int count = attrs.getAttributeCount();
+//        for (int i=0;i<count;i++){
+//            //获取每个属性的值
+//            String attributeValue = attrs.getAttributeValue(i);
+//
+//        }
+
+        String title = attrs.getAttributeValue("http://schemas.android.com/apk/res-auto", "title");
+        des_on = attrs.getAttributeValue("http://schemas.android.com/apk/res-auto", "des_on");
+        des_off = attrs.getAttributeValue("http://schemas.android.com/apk/res-auto", "des_off");
+        tv_setting_title.setText(title);
+        if (isChecked()){
+            tv_setting_des.setText(des_on);
+        }else {
+            tv_setting_des.setText(des_off);
+        }
     }
 
     public SettingView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -57,6 +75,11 @@ public class SettingView extends RelativeLayout {
     //设置选中状态
     public void setChecked(boolean checked){
         cb_setting_update.setChecked(checked);
+        if (isChecked()){
+            tv_setting_des.setText(des_on);
+        }else {
+            tv_setting_des.setText(des_off);
+        }
     }
 
     //获取checkbox的状态
