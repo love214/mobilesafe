@@ -18,7 +18,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.test.mobilesafe.R;
 import com.test.mobilesafe.utils.MD5Util;
 
@@ -32,7 +31,6 @@ public class HomeActivity extends Activity {
     private Context mContext;
     private SharedPreferences sp;
     boolean isHide=false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +57,6 @@ public class HomeActivity extends Activity {
                             //输入密码
                             showEnterPassWordDialog();
                         }
-
 
                         break;
 
@@ -93,7 +90,6 @@ public class HomeActivity extends Activity {
                     //显示密码
                     et_enterpassword_password.setInputType(0);
                     isHide=true;
-                    // TODO: 2016/8/13
                 }
 
             }
@@ -119,6 +115,8 @@ public class HomeActivity extends Activity {
                     String sp_password = sp.getString("password", "");
                     if (MD5Util.passwordMD5(password).equals(sp_password)){
                         //跳转到手机防盗界面
+                        Intent intent = new Intent(mContext, LostfindActivity.class);
+                        startActivity(intent);
                         dialog.dismiss();
                         Toast.makeText(mContext, "密码正确", Toast.LENGTH_SHORT).show();
                     }else {
