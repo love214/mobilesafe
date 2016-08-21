@@ -20,7 +20,7 @@ public class ContactsEngine {
 
     //获取联系人的方法
     public static List<HashMap<String,String>> getAllContactsInfo(Context context){
-        SystemClock.sleep(500);//模拟数据加载耗时情景
+        SystemClock.sleep(1000);//模拟数据加载耗时情景
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
         //1.获取内容解析者
         ContentResolver resolver = context.getContentResolver();

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +16,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.test.mobilesafe.R;
 import com.test.mobilesafe.engine.ContactsEngine;
+import com.test.mobilesafe.utils.MyAsycnTask;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,34 +32,64 @@ public class ContactActivity extends Activity{
     //通过注解方式初始化控件
     @ViewInject(R.id.loading)
     private ProgressBar loading;
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            lv_contact_contacts.setAdapter(new MyAdapter());
-            loading.setVisibility(View.INVISIBLE);
-        }
-    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
         mContext=this;
-
         ViewUtils.inject((Activity) mContext);
-        loading.setVisibility(View.VISIBLE);
-        //在子线程中执行查询联系人
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                list = ContactsEngine.getAllContactsInfo(mContext);
-                handler.sendEmptyMessage(0);
-            }
-        }.start();
-
         lv_contact_contacts = (ListView) findViewById(R.id.lv_contact_contacts);
+
+        //异步加载框架，将子线程所有操作封装到工具类中
+        new MyAsycnTask() {
+            @Override
+            public void preTask() {
+                loading.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void doinTask() {
+                //在子线程中执行查询联系人
+                list = ContactsEngine.getAllContactsInfo(mContext);
+            }
+
+            @Override
+            public void postTask() {
+                lv_contact_contacts.setAdapter(new MyAdapter());
+                loading.setVisibility(View.INVISIBLE);
+            }
+        }.execute();//注意调用执行方法
+
+/*
+        //Android系统的异步加载
+        //三个参数为了提高扩展性
+        //参数1：子线程执行所需的参数
+        //参数2：执行的进度的参数
+        //参数3：子线程执行的结果
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+            }
+
+            @Override
+            protected void onProgressUpdate(Void... values) {
+                super.onProgressUpdate(values);
+            }
+        };
+*/
 
         lv_contact_contacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

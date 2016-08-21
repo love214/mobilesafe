@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.test.mobilesafe.R;
 
@@ -32,6 +34,15 @@ public class LostfindActivity extends Activity{
         }else {
             //不是第一次进入
             setContentView(R.layout.activity_lostfind);
+        }
+
+        TextView tv_lostfind_safenum = (TextView) findViewById(R.id.tv_lostfind_safenum);
+        ImageView iv_lostfind_protected = (ImageView) findViewById(R.id.iv_lostfind_protected);
+        tv_lostfind_safenum.setText(sp.getString("safenum",""));
+        if (sp.getBoolean("protected",false)){
+            iv_lostfind_protected.setImageResource(R.drawable.lock);
+        }else {
+            iv_lostfind_protected.setImageResource(R.drawable.unlock);
         }
 
     }

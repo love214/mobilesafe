@@ -67,6 +67,8 @@ public class Setup3Activity extends SetupBaseActivity {
         if (data!=null){//避免空指针异常
             //接收回传过来的联系人号码
             String num = data.getStringExtra("num");
+            //去除连接符和空格字符
+            num=num.replaceAll("-","").replaceAll(" ","");
             et_setup3_safenum.setText(num);
         }
         /*
