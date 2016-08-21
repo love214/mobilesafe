@@ -45,7 +45,7 @@
         android:textSize="18sp"
         />
     <com.test.mobilesafe.ui.SettingView
-        android:id="@+id/sv_setting_update"
+        android:id="@+id/sv_setup2_sim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         test:title="点击绑定SIM卡"

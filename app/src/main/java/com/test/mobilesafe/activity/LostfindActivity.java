@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+
 import com.test.mobilesafe.R;
 
 /**
@@ -32,5 +34,12 @@ public class LostfindActivity extends Activity{
             setContentView(R.layout.activity_lostfind);
         }
 
+    }
+
+    //重新进入防盗设置向导
+    public void resetup(View view){
+        Intent intent = new Intent(this, Setup1Activity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -25,8 +25,10 @@ public class Setup1Activity extends SetupBaseActivity {
         //跳转到下一个界面
         Intent intent = new Intent(mContext, Setup2Activity.class);
         startActivity(intent);
+        finish();
+        //执行平移动画
+        overridePendingTransition(R.anim.setup_enter_next,R.anim.setup_exit_next);
     }
-
 
     public void pre_activity(){};
 }
