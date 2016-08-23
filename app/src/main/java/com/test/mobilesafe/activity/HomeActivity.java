@@ -23,6 +23,7 @@ import com.test.mobilesafe.utils.MD5Util;
 
 /**
  * Created by Huyanglin on 2016/8/10.
+ * 功能选择主界面
  */
 public class HomeActivity extends Activity {
 
@@ -60,9 +61,14 @@ public class HomeActivity extends Activity {
 
                         break;
 
+                    case 7 :
+                        Intent intent7 = new Intent(mContext, AtoolsActivity.class);
+                        startActivity(intent7);
+                        break;
+
                     case 8 :
-                        Intent intent = new Intent(mContext, SettingActivity.class);
-                        startActivity(intent);
+                        Intent intent8 = new Intent(mContext, SettingActivity.class);
+                        startActivity(intent8);
                         break;
                 }
             }
@@ -161,9 +167,13 @@ public class HomeActivity extends Activity {
                     //判断两次密码是否一致,一致则保存密码，隐藏对话框
                     dialog.dismiss();
                     Toast.makeText(mContext, "密码设置成功", Toast.LENGTH_SHORT).show();
+                    //密码设置成功后自动跳转到设置引导界面
+                    Intent intent = new Intent(mContext, Setup1Activity.class);
+                    startActivity(intent);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("password", MD5Util.passwordMD5(pass));
                     editor.commit();
+
                 }else {
                     Toast.makeText(mContext, "两次密码输入不一致", Toast.LENGTH_SHORT).show();
                 }
@@ -192,7 +202,7 @@ public class HomeActivity extends Activity {
         public View getView(int position, View convertView, ViewGroup parent) {
             //设置条目的样式
             View view = View.inflate(mContext, R.layout.item_home, null);
-//            初始化控件
+            //初始化控件
             ImageView iv_ithema_icon = (ImageView) view.findViewById(R.id.iv_ithema_icon);
             TextView tv_ithema_text = (TextView) view.findViewById(R.id.tv_ithema_text);
             iv_ithema_icon.setImageResource(imageId[position]);

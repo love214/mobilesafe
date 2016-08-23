@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,15 +19,19 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.util.IOUtils;
+
 import com.test.mobilesafe.R;
 import com.test.mobilesafe.utils.StreamUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -86,6 +91,7 @@ public class SplashActivity extends Activity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +115,7 @@ public class SplashActivity extends Activity {
             }.start();
 
         }
-
+        copyDb();//拷贝数据库
     }
 
     //弹出对话框
@@ -167,6 +173,35 @@ public class SplashActivity extends Activity {
                 }
             });
         }
+    }
+
+    private void copyDb(){
+        File file=new File(getFilesDir(),"address.db");
+        if (!file.exists()){
+            //如果存在，就不重复写数据了
+            //从assets中拷贝数据库
+            AssetManager assets = getAssets();
+            InputStream in=null;
+            FileOutputStream out=null;
+            try {
+                in = assets.open("address.db");
+                //写入流
+                out = new FileOutputStream(file);
+                //读写操作
+                byte[] b=new byte[1024];
+                int len=-1;
+                while ((len= in.read(b))!=-1){
+                    out.write(b,0,len);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                //使用第三方开源框架关闭流
+                IOUtils.closeQuietly(in);
+                IOUtils.closeQuietly(out);
+            }
+        }
+
     }
 
     //安装下载的新版本apk文件

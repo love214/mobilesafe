@@ -6,6 +6,7 @@ import android.os.Message;
 /**
  * Created by Huyanglin on 2016/8/21.
  * 贯穿子线程的方法
+ * 异步加载框架
  */
 public abstract class MyAsycnTask {
     private Handler handler=new Handler(){
