@@ -25,11 +25,12 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.util.IOUtils;
-
 import com.test.mobilesafe.R;
 import com.test.mobilesafe.utils.StreamUtil;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -91,7 +92,6 @@ public class SplashActivity extends Activity {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +116,9 @@ public class SplashActivity extends Activity {
 
         }
         copyDb();//拷贝数据库
+        //开启监听来电的服务
+//        Intent intent = new Intent(mContext, AddressService.class);
+//        startService(intent);
     }
 
     //弹出对话框

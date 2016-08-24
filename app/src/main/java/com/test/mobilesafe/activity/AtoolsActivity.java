@@ -10,6 +10,7 @@ import com.test.mobilesafe.R;
 
 /**
  * Created by Huyanglin on 2016/8/23.
+ * 高级工具
  */
 public class AtoolsActivity extends Activity{
     private Context mContext;
