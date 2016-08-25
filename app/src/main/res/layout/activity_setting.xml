@@ -37,4 +37,17 @@
         >
     </com.test.mobilesafe.ui.SettingView>
 
+    <com.test.mobilesafe.ui.SettingClickView
+        android:id="@+id/scv_setting_changebg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.test.mobilesafe.ui.SettingClickView>
+    <com.test.mobilesafe.ui.SettingClickView
+        android:id="@+id/scv_setting_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.test.mobilesafe.ui.SettingClickView>
+
 </LinearLayout>
