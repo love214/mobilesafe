@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -123,7 +124,9 @@ public class AddressService extends Service {
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON; // 保持当前屏幕
         params.format = PixelFormat.TRANSLUCENT; // 透明
         params.type = WindowManager.LayoutParams.TYPE_TOAST; // 执行toast的类型
-//        params.gravity= Gravity.LEFT | Gravity.TOP;
+        params.gravity= Gravity.LEFT | Gravity.TOP;
+        params.x=sp.getInt("x",100);
+        params.y=sp.getInt("y",100);
 
         windowManager.addView(view, params);
     }
