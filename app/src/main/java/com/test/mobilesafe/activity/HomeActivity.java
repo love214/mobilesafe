@@ -61,6 +61,12 @@ public class HomeActivity extends Activity {
 
                         break;
 
+                    case 1:
+                        //通讯卫士模块
+
+
+                        break;
+
                     case 7 :
                         Intent intent7 = new Intent(mContext, AtoolsActivity.class);
                         startActivity(intent7);

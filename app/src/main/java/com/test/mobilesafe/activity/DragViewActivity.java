@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.test.mobilesafe.R;
 
@@ -22,6 +23,8 @@ public class DragViewActivity extends Activity{
     private Context mContext;
     private LinearLayout ll_dragview_toast;
     private SharedPreferences sp;
+    private TextView tv_dragview_top;
+    private TextView tv_dragview_bottom;
     int width;
     int height;
 
@@ -32,6 +35,8 @@ public class DragViewActivity extends Activity{
         mContext=this;
         sp=getSharedPreferences("config",MODE_PRIVATE);
         ll_dragview_toast = (LinearLayout) findViewById(R.id.ll_dragview_toast);
+        tv_dragview_top = (TextView) findViewById(R.id.tv_dragview_top);
+        tv_dragview_bottom = (TextView) findViewById(R.id.tv_dragview_bottom);
         //归属地提示框位置回显
         int x = sp.getInt("x", 0);
         int y = sp.getInt("y", 0);
@@ -47,6 +52,16 @@ public class DragViewActivity extends Activity{
         manager.getDefaultDisplay().getMetrics(metrics);
         width = metrics.widthPixels;
         height = metrics.heightPixels;
+        //根据提示框的位置确定textview的位置
+        if (y>=height/2){
+            //隐藏下面
+            tv_dragview_bottom.setVisibility(View.INVISIBLE);
+            tv_dragview_top.setVisibility(View.VISIBLE);
+        }else {
+            //隐藏上面
+            tv_dragview_bottom.setVisibility(View.VISIBLE);
+            tv_dragview_top.setVisibility(View.INVISIBLE);
+        }
 
         setTouch();
         setDoubleClick();
@@ -77,15 +92,12 @@ public class DragViewActivity extends Activity{
                 }
             }
         });
-
-
     }
 
     /**
      * 设置触摸监听
      */
     private void setTouch() {
-
         ll_dragview_toast.setOnTouchListener(new View.OnTouchListener() {
             int startX = 0;
             int newX = 0;
@@ -118,6 +130,18 @@ public class DragViewActivity extends Activity{
                             break;
                         }
                         ll_dragview_toast.layout(left,top,r,b);
+
+                        int t=ll_dragview_toast.getTop();
+                        if (t>=height/2){
+                            //隐藏下面
+                            tv_dragview_bottom.setVisibility(View.INVISIBLE);
+                            tv_dragview_top.setVisibility(View.VISIBLE);
+                        }else {
+                            //隐藏上面
+                            tv_dragview_bottom.setVisibility(View.VISIBLE);
+                            tv_dragview_top.setVisibility(View.INVISIBLE);
+                        }
+
                         //更新开始的坐标
                         startY=newY;
                         startX=newX;
