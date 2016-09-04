@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+import com.test.mobilesafe.bean.BlackNumInfo;
 import com.test.mobilesafe.db.BlackNumOpenHelper;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Huyanglin on 2016/9/1.
@@ -51,7 +53,7 @@ public class BlackNumDao {
     public int queryBlackNum(String blacknum){
         int mode=-1;
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor = db.query(BlackNumOpenHelper.DB_NAME, new String[]{"mode"}, "blacknum=?", new String[]{blacknum}, null, null, null);
+        Cursor cursor = db.query(BlackNumOpenHelper.DB_NAME, new String[]{"mode"}, "blacknum=?", new String[]{blacknum}, null, null, "_id desc");
         if (cursor.moveToNext()){
             mode = cursor.getInt(0);
         }
@@ -67,5 +69,42 @@ public class BlackNumDao {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         db.delete(BlackNumOpenHelper.DB_NAME,"blacknum=?",new String[]{blacknum});
         db.close();
+    }
+
+    /**
+     * 查询所有号码和拦截模式
+     */
+    public List<BlackNumInfo> queryAllBlackNum(){
+        ArrayList<BlackNumInfo> list = new ArrayList<BlackNumInfo>();
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.query(BlackNumOpenHelper.DB_NAME, new String[]{"blacknum", "mode"}, null, null, null, null, "_id desc");
+        while (cursor.moveToNext()){
+            String blacknum = cursor.getString(0);
+            int mode = cursor.getInt(1);
+            BlackNumInfo blackNumInfo = new BlackNumInfo(blacknum,mode);
+            list.add(blackNumInfo);
+        }
+        cursor.close();
+        db.close();
+        return list;
+    }
+
+    /**
+     * 查询20条数据，分批加载
+     */
+    public List<BlackNumInfo> getPartBlackNum(int maxNum,int startindex){
+        ArrayList<BlackNumInfo> list = new ArrayList<BlackNumInfo>();
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select blacknum,mode from info order by _id desc limit ? offset ?", new String[]{maxNum + "", startindex + ""});
+
+        while (cursor.moveToNext()){
+            String blacknum = cursor.getString(0);
+            int mode = cursor.getInt(1);
+            BlackNumInfo blackNumInfo = new BlackNumInfo(blacknum,mode);
+            list.add(blackNumInfo);
+        }
+        cursor.close();
+        db.close();
+        return list;
     }
 }

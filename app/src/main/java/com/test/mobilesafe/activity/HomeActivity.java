@@ -63,8 +63,8 @@ public class HomeActivity extends Activity {
 
                     case 1:
                         //通讯卫士模块
-
-
+                        Intent intent1 = new Intent(mContext, CallSmsSafeActivity.class);
+                        startActivity(intent1);
                         break;
 
                     case 7 :

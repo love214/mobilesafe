@@ -44,6 +44,7 @@
         <activity android:name="com.test.mobilesafe.activity.Setup4Activity"/>
         <activity android:name="com.test.mobilesafe.activity.AtoolsActivity"/>
         <activity android:name="com.test.mobilesafe.activity.AddressActivity"/>
+        <activity android:name=".activity.CallSmsSafeActivity"/>
 
         <receiver android:name="com.test.mobilesafe.receiver.BootCompleteReceiver">
             <intent-filter android:priority="1000">
