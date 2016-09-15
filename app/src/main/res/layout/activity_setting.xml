@@ -49,5 +49,14 @@
         android:layout_height="wrap_content">
 
     </com.test.mobilesafe.ui.SettingClickView>
+    <com.test.mobilesafe.ui.SettingView
+        android:id="@+id/sv_setting_blacknum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        test:title="黑名单"
+        test:des_on="打开黑名单拦截"
+        test:des_off="关闭黑名单拦截"
+        >
+    </com.test.mobilesafe.ui.SettingView>
 
 </LinearLayout>

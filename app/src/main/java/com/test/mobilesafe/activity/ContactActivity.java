@@ -50,7 +50,7 @@ public class ContactActivity extends Activity{
             }
 
             @Override
-            public void doinTask() {
+            public void doInTask() {
                 //在子线程中执行查询联系人
                 list = ContactsEngine.getAllContactsInfo(mContext);
             }

@@ -50,7 +50,7 @@ public class BlackNumDao {
     /**
      * 查询拦截模式
      */
-    public int queryBlackNum(String blacknum){
+    public int queryBlackNumMode(String blacknum){
         int mode=-1;
         SQLiteDatabase db = openHelper.getReadableDatabase();
         Cursor cursor = db.query(BlackNumOpenHelper.DB_NAME, new String[]{"mode"}, "blacknum=?", new String[]{blacknum}, null, null, "_id desc");

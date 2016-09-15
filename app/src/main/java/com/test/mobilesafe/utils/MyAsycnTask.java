@@ -21,7 +21,7 @@ public abstract class MyAsycnTask {
     public abstract void preTask();
 
     //在子线程之中执行的方法
-    public abstract void doinTask();
+    public abstract void doInTask();
 
     //在子线程之后执行的方法
     public abstract void postTask();
@@ -31,7 +31,7 @@ public abstract class MyAsycnTask {
         new Thread(){
             @Override
             public void run() {
-                doinTask();
+                doInTask();
                 handler.sendEmptyMessage(0);
             }
         }.start();

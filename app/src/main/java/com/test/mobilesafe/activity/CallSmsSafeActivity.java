@@ -35,7 +35,7 @@ public class CallSmsSafeActivity extends Activity {
     private ProgressBar loading;
     BlackNumDao blackNumDao;
     private List<BlackNumInfo> list;
-    private MyAdapter myAdapterr;
+    private MyAdapter myAdapter;
     private AlertDialog dialog;
     private final int MAXNUM=20;
     private int startindex=0;
@@ -84,19 +84,26 @@ public class CallSmsSafeActivity extends Activity {
             }
 
             @Override
-            public void doinTask() {
+            public void doInTask() {
                 if (list==null){
                     list = blackNumDao.getPartBlackNum(MAXNUM,startindex);
                 }else {
-                    list.addAll(blackNumDao.getPartBlackNum(MAXNUM,startindex));
+                    list.addAll(blackNumDao.getPartBlackNum(MAXNUM,startindex));//保证向上滑动的时候可以正常显示之前的数据
                 }
             }
 
             @Override
             public void postTask() {
+                if (myAdapter == null) {
+                    myAdapter = new MyAdapter();
+                    lv_callsmssafe_blacknum.setAdapter(myAdapter);
+                }else{
+                    myAdapter.notifyDataSetChanged();
+                }
                 loading.setVisibility(View.INVISIBLE);
-                myAdapterr=new MyAdapter();
-                lv_callsmssafe_blacknum.setAdapter(myAdapterr);
+//                loading.setVisibility(View.INVISIBLE);
+//                myAdapter=new MyAdapter();
+//                lv_callsmssafe_blacknum.setAdapter(myAdapter);
             }
         }.execute();//注意必须执行
     }
@@ -162,7 +169,7 @@ public class CallSmsSafeActivity extends Activity {
                             blackNumDao.deleteBlackNum(blackNumInfo.getBlacknum());//从数据库删除黑名单号码
                             list.remove(position);//从存放黑名单的list集合中删除相应的数据
                             //重点！更新界面
-                            myAdapterr.notifyDataSetChanged();
+                            myAdapter.notifyDataSetChanged();
                             dialog.dismiss();
 
                         }
@@ -227,7 +234,7 @@ public class CallSmsSafeActivity extends Activity {
                 blackNumDao.addBlackNum(blacknum,mode);
                 //添加到list集合中，并且更新界面
                 list.add(0,new BlackNumInfo(blacknum,mode));
-                myAdapterr.notifyDataSetChanged();
+                myAdapter.notifyDataSetChanged();
                 dialog.dismiss();
 
             }

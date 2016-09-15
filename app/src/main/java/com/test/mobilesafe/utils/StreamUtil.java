@@ -26,7 +26,6 @@ public class StreamUtil {
         sw.close();
         reader.close();
 
-
         return sw.toString();
     }
 }

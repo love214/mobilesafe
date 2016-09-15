@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.test.mobilesafe.R;
 import com.test.mobilesafe.service.AddressService;
+import com.test.mobilesafe.service.BlackNumService;
 import com.test.mobilesafe.ui.SettingClickView;
 import com.test.mobilesafe.ui.SettingView;
 import com.test.mobilesafe.utils.AddressUtils;
@@ -26,6 +27,7 @@ public class SettingActivity extends Activity {
     private Context mContext;
     private SettingClickView scv_setting_changebg;
     private SettingClickView scv_setting_location;
+    private SettingView sv_setting_blacknum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class SettingActivity extends Activity {
         sv_setting_address = (SettingView) findViewById(R.id.sv_setting_address);
         scv_setting_changebg = (SettingClickView) findViewById(R.id.scv_setting_changebg);
         scv_setting_location = (SettingClickView) findViewById(R.id.scv_setting_location);
+        sv_setting_blacknum = (SettingView) findViewById(R.id.sv_setting_blacknum);
         //sv_setting_update.setTitle("提示更新");
         update();
         address();
@@ -64,6 +67,35 @@ public class SettingActivity extends Activity {
         //当界面可见的时候，刷新一下服务是否开启
         super.onStart();
         address();
+        blackNum();
+    }
+
+    /**
+     * 黑名单拦截的操作
+     */
+    private void blackNum() {
+        if (AddressUtils.isRunningService(mContext,"com.test.mobilesafe.service.BlackNumService")){
+            //服务已经开启
+            sv_setting_blacknum.setChecked(true);
+        }else {
+            //服务没有开启
+            sv_setting_blacknum.setChecked(false);
+        }
+        sv_setting_blacknum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, BlackNumService.class);
+                if (sv_setting_blacknum.isChecked()){
+                    //关闭显示归属地
+                    stopService(intent);
+                    sv_setting_blacknum.setChecked(false);
+                }else {
+                    //打开显示归属地
+                    startService(intent);
+                    sv_setting_blacknum.setChecked(true);
+                }
+            }
+        });
     }
 
     /**
