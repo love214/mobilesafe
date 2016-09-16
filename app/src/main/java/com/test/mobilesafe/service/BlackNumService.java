@@ -2,9 +2,13 @@ package com.test.mobilesafe.service;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
@@ -48,7 +52,7 @@ public class BlackNumService extends Service {
 
     private class MyPhoneStateListener extends PhoneStateListener {
         @Override
-        public void onCallStateChanged(int state, String incomingNumber) {
+        public void onCallStateChanged(int state, final String incomingNumber) {
             super.onCallStateChanged(state, incomingNumber);
             if (state == TelephonyManager.CALL_STATE_RINGING) {
                 //响铃状态，检测拦截模式是否是电话拦截
@@ -56,6 +60,17 @@ public class BlackNumService extends Service {
                 if (mode == BlackNumDao.ALL || mode == BlackNumDao.CALL) {
                     //挂断电话
                     endCall();
+                    //删除通话记录的逻辑
+                    final ContentResolver resolver = getContentResolver();
+                    final Uri uri=Uri.parse("content://call_log/calls");
+                    //采用内容观察者来实现，一旦发生变化，就删除通话记录
+                    resolver.registerContentObserver(uri, true, new ContentObserver(new Handler()) {
+                        @Override
+                        public void onChange(boolean selfChange) {
+                            super.onChange(selfChange);
+                            resolver.delete(uri,"number=?",new String[]{incomingNumber});
+                        }
+                    });
                 }
             }
         }

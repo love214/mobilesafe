@@ -67,6 +67,12 @@ public class HomeActivity extends Activity {
                         startActivity(intent1);
                         break;
 
+                    case 2:
+                        //软件管理模块
+                        Intent intent2 = new Intent(mContext, SotfManagerActivity.class);
+                        startActivity(intent2);
+                        break;
+
                     case 7 :
                         Intent intent7 = new Intent(mContext, AtoolsActivity.class);
                         startActivity(intent7);
