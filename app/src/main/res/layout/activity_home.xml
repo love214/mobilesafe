@@ -16,7 +16,7 @@
         android:textSize="22sp"
 
         />
-    <com.test.mobilesafe.ui.HomeTextView
+    <site.wanter.ui.HomeTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="手机卫士，真64杀毒引擎，超神速度，打开7次可以召唤神龙，辅助杀毒！！！"

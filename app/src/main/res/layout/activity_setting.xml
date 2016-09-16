@@ -18,7 +18,7 @@
 
         />
 
-    <com.test.mobilesafe.ui.SettingView
+    <site.wanter.ui.SettingView
         android:id="@+id/sv_setting_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,8 +26,8 @@
         test:des_on="打开提示更新"
         test:des_off="关闭提示更新"
         >
-    </com.test.mobilesafe.ui.SettingView>
-    <com.test.mobilesafe.ui.SettingView
+    </site.wanter.ui.SettingView>
+    <site.wanter.ui.SettingView
         android:id="@+id/sv_setting_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,21 +35,21 @@
         test:des_on="显示号码归属地"
         test:des_off="不显示号码归属地"
         >
-    </com.test.mobilesafe.ui.SettingView>
+    </site.wanter.ui.SettingView>
 
-    <com.test.mobilesafe.ui.SettingClickView
+    <site.wanter.ui.SettingClickView
         android:id="@+id/scv_setting_changebg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </com.test.mobilesafe.ui.SettingClickView>
-    <com.test.mobilesafe.ui.SettingClickView
+    </site.wanter.ui.SettingClickView>
+    <site.wanter.ui.SettingClickView
         android:id="@+id/scv_setting_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </com.test.mobilesafe.ui.SettingClickView>
-    <com.test.mobilesafe.ui.SettingView
+    </site.wanter.ui.SettingClickView>
+    <site.wanter.ui.SettingView
         android:id="@+id/sv_setting_blacknum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,6 +57,6 @@
         test:des_on="打开黑名单拦截"
         test:des_off="关闭黑名单拦截"
         >
-    </com.test.mobilesafe.ui.SettingView>
+    </site.wanter.ui.SettingView>
 
 </LinearLayout>
