@@ -73,6 +73,12 @@ public class HomeActivity extends Activity {
                         startActivity(intent2);
                         break;
 
+                    case 3:
+                        //软件管理模块
+                        Intent intent3 = new Intent(mContext, TaskManagerActivity.class);
+                        startActivity(intent3);
+                        break;
+
                     case 7 :
                         Intent intent7 = new Intent(mContext, AtoolsActivity.class);
                         startActivity(intent7);

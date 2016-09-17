@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.format.Formatter;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +28,13 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import site.wanter.MyApplication;
 import site.wanter.bean.AppInfo;
 import site.wanter.engine.AppEngine;
 import site.wanter.mobilesafe.R;
+import site.wanter.utils.AppUtil;
 import site.wanter.utils.MyAsycnTask;
 
 /**
@@ -48,9 +48,11 @@ public class SoftManagerActivity extends Activity implements View.OnClickListene
     private List<AppInfo> userApplist;//用户app集合
     private List<AppInfo> sysApplist;//系统app集合
     private TextView tv_softmanager_userorsystem;
-    PopupWindow popupWindow;
+    private PopupWindow popupWindow;
     private AppInfo appInfo;
-    MyAdapter adapter;
+    private MyAdapter adapter;
+    private TextView tv_softmanager_rom;
+    private TextView tv_softmanager_sd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +62,16 @@ public class SoftManagerActivity extends Activity implements View.OnClickListene
         lv_softmanager_application = (ListView) findViewById(R.id.lv_softmanager_application);
         loading = (ProgressBar) findViewById(R.id.loading);
         tv_softmanager_userorsystem = (TextView) findViewById(R.id.tv_softmanager_userorsystem);
+        tv_softmanager_rom = (TextView) findViewById(R.id.tv_softmanager_rom);
+        tv_softmanager_sd = (TextView) findViewById(R.id.tv_softmanager_sd);
+        long availableROM = AppUtil.getAvailableROM();
+        long availableSD = AppUtil.getAvailableSD();
+        //转换单位
+        String romSize = Formatter.formatFileSize(context, availableROM);
+        String sdSize = Formatter.formatFileSize(context, availableSD);
+        tv_softmanager_rom.setText("手机可用内存："+romSize);
+        tv_softmanager_sd.setText("内存卡可用内存:"+sdSize);
+
         //加载数据的操作，异步加载
         fillData();
         listviewOnscroll();
@@ -76,7 +88,6 @@ public class SoftManagerActivity extends Activity implements View.OnClickListene
                 if (position == 0 || position == userApplist.size() + 1) {//判断是否是提示框
                     return;
                 }
-//                AppInfo appInfo =   null;
                 if (position <= userApplist.size()) {
                     //从用户app集合中获取
                     appInfo = userApplist.get(position - 1);
@@ -177,15 +188,16 @@ public class SoftManagerActivity extends Activity implements View.OnClickListene
     private void startApp() {
         PackageManager pm = getPackageManager();
         Intent intent = pm.getLaunchIntentForPackage(appInfo.getPackagName());
-        if (intent!=null && !appInfo.getPackagName().equals(getPackageName())){
-            startActivity(intent);
-        }
-        if(appInfo.getPackagName().equals(getPackageName())){
-            Toast.makeText(MyApplication.getContext(), "不能自己启动自己哦~", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(MyApplication.getContext(), "系统核心程序无法启动哦~", Toast.LENGTH_SHORT).show();
-        }
 
+        if (intent==null){
+            Toast.makeText(MyApplication.getContext(), "系统核心程序无法启动哦~", Toast.LENGTH_SHORT).show();
+        }else {
+            if(appInfo.getPackagName().equals(getPackageName())){
+                Toast.makeText(MyApplication.getContext(), "手机卫士已经在运行了哦~", Toast.LENGTH_SHORT).show();
+            }else {
+                startActivity(intent);
+            }
+        }
     }
 
     /**
@@ -208,7 +220,7 @@ public class SoftManagerActivity extends Activity implements View.OnClickListene
                 intent.setData(Uri.parse("package:"+appInfo.getPackagName()));
                 startActivityForResult(intent,0);
             }else {
-                Toast.makeText(MyApplication.getContext(), "不能自己卸载自己哦~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyApplication.getContext(), "主人，留下我好不好~", Toast.LENGTH_SHORT).show();
             }
         }else {
             Toast.makeText(MyApplication.getContext(), "卸载系统app请先root哦~", Toast.LENGTH_SHORT).show();

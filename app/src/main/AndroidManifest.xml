@@ -20,6 +20,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
     <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -50,6 +52,7 @@
         <activity android:name="site.wanter.activity.AddressActivity"/>
         <activity android:name="site.wanter.activity.CallSmsSafeActivity"/>
         <activity android:name="site.wanter.activity.SoftManagerActivity"/>
+        <activity android:name="site.wanter.activity.TaskManagerActivity"/>
 
         <receiver android:name="site.wanter.receiver.BootCompleteReceiver">
             <intent-filter android:priority="1000">
